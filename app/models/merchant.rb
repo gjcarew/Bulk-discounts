@@ -1,5 +1,6 @@
 class Merchant < ApplicationRecord
   has_many :items
+  has_many :discounts
   
   def not_shipped
     items.select("items.*, invoices.created_at as inv_created,invoice_items.invoice_id as invoice_id")
