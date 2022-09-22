@@ -29,11 +29,15 @@ FactoryBot.define do
     status { ["in progress", "completed", "cancelled"].sample}
     customer
   end
- 
+
   factory :transaction do
     invoice
     credit_card_number { Faker::Number.number(digits: 10).to_s }
     credit_card_expiration_date { Faker::Number.number(digits: 4) }
     result { [:success, :failed].sample }
+  end
+
+  factory :discount do
+    
   end
 end
