@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'admin dashboard page' do
-  before :each do
-    names_array = {'gjcarew' => 22, 'stephenfabian' => 25, 'Rileybmcc' => 22, 'KevinT001' => 11}
-    allow(GithubFacade).to receive(:commits).and_return(names_array)
-
-    pull_requests_count = 3
-    allow(GithubFacade).to receive(:pull_requests).and_return(pull_requests_count)
-  end
-
   it 'can visit /admin' do
     visit '/admin'
 
@@ -89,7 +81,7 @@ RSpec.describe 'admin dashboard page' do
       click_link "#{@invoice2.id}"
       expect(current_path).to eq(admin_invoice_path(@invoice2))
       visit admin_path
-      click_link @invoice3.id
+      click_link "#{@invoice3.id}"
       expect(current_path).to eq(admin_invoice_path(@invoice3))
     end
 
