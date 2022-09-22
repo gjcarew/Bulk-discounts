@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  resources :discounts
   resources :invoice_items, only: %i[index show update]
 
   resources :merchants do
     resources :items
     resources :invoices, only: %i[index show update]
+    resources :discounts, only: %i[index]
     get '/dashboard', to: 'merchants_dashboard#index'
   end
 
