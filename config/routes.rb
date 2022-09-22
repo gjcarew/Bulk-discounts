@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :discounts
   resources :transactions
   resources :invoice_items
   resources :items
