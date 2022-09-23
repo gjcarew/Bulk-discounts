@@ -1,0 +1,15 @@
+<% if flash[:messages] %>
+  <% flash[:messages].each do |message| %>
+    <p><%= message %> </p> <br>
+  <% end %>
+<% end %>
+<h1> New Discount </h1>
+<%= form_with model: @merchant, url: merchant_discounts_path(@merchant), method: :post, local: true  do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %> 
+  <%= form.label 'Percent discount' %>
+  <%= form.number_field :percentage, step: :any %>
+  <%= form.label :threshold %>
+  <%= form.number_field :threshold %>
+  <%= form.submit 'Submit' %>
+<% end %>
