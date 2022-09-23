@@ -20,8 +20,8 @@ RSpec.describe 'Merchants discount index' do
       visit merchant_discounts_path(@merchant)
       expect(page).to have_content(@discounts[0].threshold)
       expect(page).to have_content(@discounts[1].threshold)
-      expect(page).to have_content(@discounts[0].percentage)
-      expect(page).to have_content(@discounts[1].percentage)
+      expect(page).to have_content("#{@discounts[0].percentage * 100}%")
+      expect(page).to have_content("#{@discounts[1].percentage * 100}%")
     end
 
     it 'Each bulk discount has a link to its show page' do 
