@@ -14,7 +14,7 @@ RSpec.describe 'Merchant Bulk Discount Create' do
     it 'When I fill in the form with valid data I am redirected to bulk discount index' do
       visit new_merchant_discount_path(@merchant)
       fill_in :name, with: 'Christmas discount'
-      fill_in :percentage, with: .58
+      fill_in :percentage, with: 0.58
       fill_in :threshold, with: 12
       click_button 'Submit'
       expect(current_path).to eq(merchant_discounts_path(@merchant))
