@@ -7,10 +7,11 @@
     <th> Threshold </th>
   </tr>
   <% @merchant.discounts.each do |discount| %>
-  <tr> 
+  <tr id="discount-<%=discount.id%>"> 
     <th> <%= link_to "#{discount.name}", merchant_discount_path(@merchant, discount)%>  </th>
     <th> <%= discount.percentage * 100 %>% </th>
     <th> <%= discount.threshold %> </th>
+    <th> <%= button_to 'Delete', merchant_discount_path(@merchant, discount), method: :delete%>
   </tr>
   <% end %>
 </table>

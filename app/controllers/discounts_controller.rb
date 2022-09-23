@@ -21,10 +21,15 @@ class DiscountsController < ApplicationController
       new_discount.save
       redirect_to merchant_discounts_path(@merchant)
     else
-      flash[:notice] = 'Error: invalid data'
       flash.now[:messages] = new_discount.errors.full_messages
       render :new
     end
+  end
+
+  def destroy
+    discount = Discount.find(params[:id])
+    discount.delete
+    redirect_to merchant_discounts_path(params[:merchant_id])
   end
 
   private
