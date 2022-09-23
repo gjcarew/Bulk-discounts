@@ -40,6 +40,14 @@ namespace :csv_load do
     load_from_csv('transactions', Transaction)
   end
 
+  desc "Load discounts with Faker"
+  task discounts: :environment do
+    require './././spec/factories.rb'
+    300.times do 
+      FactoryBot.create(:discount, merchant_id: Faker::Number.between(from: 1, to: 100))
+    end
+  end
+
   desc "Load all from CSV"
   task all: :environment do
     Rake::Task["csv_load:customers"].invoke
@@ -48,5 +56,6 @@ namespace :csv_load do
     Rake::Task["csv_load:invoices"].invoke
     Rake::Task["csv_load:invoice_items"].invoke
     Rake::Task["csv_load:transactions"].invoke
+    Rake::Task["csv_load:discounts"].invoke
   end
 end
