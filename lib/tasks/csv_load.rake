@@ -42,8 +42,8 @@ namespace :csv_load do
 
   desc "Load discounts with Faker"
   task discounts: :environment do
-    require './././spec/factories.rb'
-    300.times do 
+    require './././spec/factories'
+    300.times do
       FactoryBot.create(:discount, merchant_id: Faker::Number.between(from: 1, to: 100))
     end
   end
