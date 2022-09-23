@@ -38,6 +38,8 @@ FactoryBot.define do
   end
 
   factory :discount do
-    
+    name { Faker::TvShows::GameOfThrones.character }
+    threshold { Faker::Number.number.between(from: 1, to: 75) }
+    percentage { Faker::Number.number.decimal(l_digits: 0, r_digits: 2) }
   end
 end
