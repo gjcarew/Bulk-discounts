@@ -1,0 +1,15 @@
+<h1> Discounts </h1>
+<table>
+  <tr>
+    <th> Name </th>
+    <th> Discount </th>
+    <th> Threshold </th>
+  </tr>
+  <% @merchant.discounts.each do |discount| %>
+  <tr> 
+    <th> <%= link_to "#{discount.name}", merchant_discount_path(@merchant, discount)%>  </th>
+    <th> <%= discount.percentage * 100 %>% </th>
+    <th> <%= discount.threshold %> </th>
+  </tr>
+  <% end %>
+</table>

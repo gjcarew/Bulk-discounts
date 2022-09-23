@@ -29,11 +29,18 @@ FactoryBot.define do
     status { ["in progress", "completed", "cancelled"].sample}
     customer
   end
- 
+
   factory :transaction do
     invoice
     credit_card_number { Faker::Number.number(digits: 10).to_s }
     credit_card_expiration_date { Faker::Number.number(digits: 4) }
     result { [:success, :failed].sample }
+  end
+
+  factory :discount do
+    merchant
+    name { Faker::TvShows::GameOfThrones.character }
+    threshold { Faker::Number.between(from: 1, to: 75) }
+    percentage { Faker::Number.decimal(l_digits: 0, r_digits: 2) }
   end
 end

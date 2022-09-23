@@ -205,10 +205,19 @@ RSpec.describe 'Merchant_Dashboard' do
       end
     end
   end 
+  describe 'Merchant Bulk Discounts Index' do
+    it 'I see a link to view all my discounts' do
+      steph_merchant = Merchant.create!(name: "Stephen's shop")
+      visit "/merchants/#{steph_merchant.id}/dashboard"
+      expect(page).to have_link('View all my discounts')
+    end
+
+    it 'When I click the link, I am taken to my bulk discounts index page' do
+      steph_merchant = Merchant.create!(name: "Stephen's shop")
+      visit "/merchants/#{steph_merchant.id}/dashboard"
+      click_link 'View all my discounts'
+      expect(current_path).to eq(merchant_discounts_path(steph_merchant))
+    end
+  end
+
 end
-# As a merchant
-# When I visit my merchant dashboard
-# In the section for "Items Ready to Ship",
-# Next to each Item name I see the date that the invoice was created
-# And I see the date formatted like "Monday, July 18, 2019"
-# And I see that the list is ordered from oldest to newest
