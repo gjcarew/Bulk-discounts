@@ -17,7 +17,7 @@ RSpec.describe 'Merchant discount show page' do
     it 'I see a link to edit the bulk discount' do
       visit merchant_discount_path(@merchant, @discount)
       click_link 'Edit'
-      expect(current_path).to eq(edit_merchant_discount(@merchant, @discount))
+      expect(current_path).to eq(edit_merchant_discount_path(@merchant, @discount))
     end
   end
 end

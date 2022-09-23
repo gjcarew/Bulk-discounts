@@ -9,6 +9,7 @@ RSpec.describe 'Discount edit' do
 
     it 'I see a form to edit the discount pre-populated with current attributes' do
       visit edit_merchant_discount_path(@merchant, @discount)
+      click_button 'Save'
       expect(page).to have_content(@discount.percentage * 100)
       expect(page).to have_content(@discount.threshold)
       expect(page).to have_content(@discount.name)
@@ -16,8 +17,8 @@ RSpec.describe 'Discount edit' do
     
     it 'When I change any information and click submit, I am redirected to the show page with the updated attributes' do
       visit edit_merchant_discount_path(@merchant, @discount)
-      fill_in fill_in 'Name', with: 'Christmas discount'
-      fill_in 'merchant_percentage', with: 0.58
+      fill_in 'Name', with: 'Christmas discount'
+      fill_in 'discount_percentage', with: 0.58
       fill_in 'Threshold', with: 12
       click_button 'Save'
       expect(current_path).to eq(merchant_discount_path(@merchant, @discount))
