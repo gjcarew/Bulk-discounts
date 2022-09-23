@@ -4,7 +4,7 @@ class DiscountsController < ApplicationController
   end
 
   def show
-
+    @discount = Discount.find(params[:id])
   end
 
   def new
@@ -16,7 +16,7 @@ class DiscountsController < ApplicationController
     if params[:merchant][:percentage].to_f.between?(1, 100)
       params[:merchant][:percentage] = params[:merchant][:percentage].to_f / 100 
     end
-    new_discount = @merchant.discounts.new(discount_params)
+    new_discount = @merchant.discounts.new(new_discount_params)
     if new_discount.valid?
       new_discount.save
       redirect_to merchant_discounts_path(@merchant)
@@ -32,9 +32,30 @@ class DiscountsController < ApplicationController
     redirect_to merchant_discounts_path(params[:merchant_id])
   end
 
+  def edit
+    @discount = Discount.find(params[:id])
+  end
+
+  def update
+    discount = Discount.find(params[:id])
+    if params[:discount][:percentage].to_f.between?(1, 100)
+      params[:discount][:percentage] = params[:discount][:percentage].to_f / 100 
+    end
+    if discount.update(discount_params)
+      redirect_to merchant_discount_path(discount.merchant_id, discount)
+    else
+      flash.now[:messages] = new_discount.errors.full_messages
+      render :new
+    end
+  end
+
   private
 
-  def discount_params
+  def new_discount_params
     params.require(:merchant).permit(:name, :percentage, :threshold)
+  end
+  
+  def discount_params
+    params.require(:discount).permit(:name, :percentage, :threshold)
   end
 end
