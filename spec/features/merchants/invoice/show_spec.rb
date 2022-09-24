@@ -149,13 +149,13 @@ RSpec.describe 'Merchant Invoice Show Page' do
     end
   end
 
-  describe 'When I visit the merchant invoice show page' do 
+  describe 'Discounts: When I visit the merchant invoice show page' do 
     it 'I see total discounted revenue which includes bulk discounts' do
       merchant = create(:merchant)
       invoice = create(:invoice)
       items = create_list(:item, 3, merchant_id: merchant.id)
       items.each { |item| create(:invoiceItem, item_id: item.id, invoice_id: invoice.id, quantity: 5, unit_price: 200)}
-      create(:discount, merchant_id: merchant.id, threshold: 4, percentage: 10)
+      create(:discount, merchant_id: merchant.id, threshold: 4, percentage: 0.10)
       visit merchant_invoice_path(merchant, invoice)
       expect(page).to have_content('Discounted revenue: $27')
     end
