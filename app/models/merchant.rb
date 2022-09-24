@@ -51,7 +51,6 @@ class Merchant < ApplicationRecord
   end
 
   def self.top_5_merchants
-
     Merchant.joins(items: {invoices: :transactions})
     .where("transactions.result = 0")
     .select("merchants.*, sum(invoice_items.unit_price * invoice_items.quantity) as revenue")
