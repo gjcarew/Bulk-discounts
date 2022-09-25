@@ -1,11 +1,12 @@
+<%= render 'errors' %>
 <h1> Edit Discount </h1>
 
 <%= form_with model: @discount, url: merchant_discount_path(@discount.merchant_id, @discount), local: true  do |form| %>
   <%= form.label :name %>
-  <%= form.text_field :name, value: @discount.name %> 
+  <%= form.text_field :name, value: @discount.name %> </br>
   <%= form.label 'Percent discount' %>
-  <%= form.number_field :percentage, step: :any, value: @discount.percentage * 100 %>
+  <%= form.number_field :percentage, step: :any, value: @discount.percentage * 100 %></br>
   <%= form.label :threshold %>
-  <%= form.number_field :threshold, value: @discount.threshold %>
+  <%= form.number_field :threshold, value: @discount.threshold %></br>
   <%= form.submit 'Save' %>
 <% end %>

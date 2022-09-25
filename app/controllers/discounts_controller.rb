@@ -37,15 +37,15 @@ class DiscountsController < ApplicationController
   end
 
   def update
-    discount = Discount.find(params[:id])
+    @discount = Discount.find(params[:id])
     if params[:discount][:percentage].to_f.between?(1, 100)
       params[:discount][:percentage] = params[:discount][:percentage].to_f / 100 
     end
-    if discount.update(discount_params)
-      redirect_to merchant_discount_path(discount.merchant_id, discount)
+    if @discount.update(discount_params)
+      redirect_to merchant_discount_path(@discount.merchant_id, @discount)
     else
-      flash.now[:messages] = new_discount.errors.full_messages
-      render :new
+      flash.now[:messages] = @discount.errors.full_messages
+      render :edit
     end
   end
 
