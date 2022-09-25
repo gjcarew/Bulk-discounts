@@ -154,18 +154,29 @@ RSpec.describe 'Merchant Invoice Show Page' do
       @merchant = create(:merchant)
       @invoice = create(:invoice)
       items = create_list(:item, 3, merchant_id: @merchant.id)
-      items.each { |item| create(:invoiceItem, item_id: item.id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)}
-      create(:discount, merchant_id: @merchant.id, threshold: 4, percentage: 0.10)
+      @invoice_item1 = create(:invoiceItem, item_id: items[0].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @invoice_item2 = create(:invoiceItem, item_id: items[1].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @invoice_item3 = create(:invoiceItem, item_id: items[2].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @discount = create(:discount, merchant_id: @merchant.id, threshold: 4, percentage: 0.10)
     end
 
     it 'I see total revenue before discounts' do
       visit merchant_invoice_path(@merchant, @invoice)
       expect(page).to have_content('Total Revenue: $30.00')
     end
-
+    
     it 'I see total discounted revenue which includes bulk discounts' do
       visit merchant_invoice_path(@merchant, @invoice)
       expect(page).to have_content('Discounted Revenue: $27.00')
+    end
+  
+    it 'Next to each invoice item I see a link to the show page
+    for the bulk discount that was applied' do
+      visit merchant_invoice_path(@merchant, @invoice)
+      within "#invoice_item_#{@invoice_item1.id}" do
+        click_link 'View applied discount'
+      end
+      expect(current_path).to eq(merchant_discount_path(@merchant, @discount))
     end
   end
 end

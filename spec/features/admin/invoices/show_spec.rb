@@ -111,4 +111,34 @@ RSpec.describe 'Admin invoices show page' do
       expect(invoice.reload.status).to eq('completed')
     end
   end
+
+  describe 'Discounts: When I visit the admin invoice show page' do 
+    before :each do
+      @merchant = create(:merchant)
+      @merchant2 = create(:merchant)
+      @invoice = create(:invoice)
+      items = create_list(:item, 3, merchant_id: @merchant.id)
+      items2 = create_list(:item, 3, merchant_id: @merchant2.id)
+      
+      @invoice_item1 = create(:invoiceItem, item_id: items[0].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @invoice_item2 = create(:invoiceItem, item_id: items[1].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @invoice_item3 = create(:invoiceItem, item_id: items[2].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @invoice_item1 = create(:invoiceItem, item_id: items2[0].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @invoice_item2 = create(:invoiceItem, item_id: items2[1].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @invoice_item3 = create(:invoiceItem, item_id: items2[2].id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)
+      @discount = create(:discount, merchant_id: @merchant.id, threshold: 4, percentage: 0.10)
+      @discount = create(:discount, merchant_id: @merchant2.id, threshold: 3, percentage: 0.20)
+      
+    end
+
+    it 'I see total revenue before discounts' do
+      visit admin_invoice_path(@invoice)
+      expect(page).to have_content('Total Revenue: $60.00')
+    end
+    
+    it 'I see total discounted revenue which includes bulk discounts' do
+      visit admin_invoice_path(@invoice)
+      expect(page).to have_content('Discounted Revenue: $51.00')
+    end
+  end
 end
