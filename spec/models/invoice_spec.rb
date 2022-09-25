@@ -43,5 +43,88 @@ RSpec.describe Invoice, type: :model do
 
       expect(Invoice.incomplete).to eq([@invoice3, @invoice2])
     end
+
+    describe '#discounted_revenue' do
+      it 'A bulk discount is eligible for all items a merchant sells' do
+        merchant = create(:merchant)
+        discount = create(:discount, merchant_id: merchant.id, threshold: 5, percentage: 0.5)
+        item1 = create(:item, merchant_id: merchant.id)
+        item2 = create(:item, merchant_id: merchant.id)
+        invoice = create(:invoice)
+        invoice_item1 = create(:invoiceItem,
+                                item_id: item1.id, 
+                                invoice_id: invoice.id,
+                                unit_price: 1000,
+                                quantity: 10)
+        invoice_item2 = create(:invoiceItem,
+                                item_id: item2.id, 
+                                invoice_id: invoice.id,
+                                unit_price: 500,
+                                quantity: 20)
+                                
+        expect(invoice.discount).to eq(10000)
+      end
+
+      it 'Bulk discounts for one merchant should not affect items sold by another merchant' do
+        merchant = create(:merchant)
+        merchant2 = create(:merchant)
+        discount = create(:discount, merchant_id: merchant.id, threshold: 5, percentage: 0.5)
+        item1 = create(:item, merchant_id: merchant.id)
+        item2 = create(:item, merchant_id: merchant.id)
+        item3 = create(:item, merchant_id: merchant2.id)
+        invoice = create(:invoice)
+        invoice_item1 = create(:invoiceItem,
+                               item_id: item1.id, 
+                               invoice_id: invoice.id,
+                               unit_price: 1000,
+                               quantity: 10)
+        invoice_item2 = create(:invoiceItem,
+                               item_id: item2.id,
+                               invoice_id: invoice.id,
+                               unit_price: 500,
+                               quantity: 20)
+        invoice_item3 = create(:invoiceItem,
+                               item_id: item3.id, 
+                               invoice_id: invoice.id,
+                               unit_price: 500,
+                               quantity: 20)
+                              
+        expect(invoice.discounted_revenue).to eq(20000)
+      end
+
+      it 'If an item meets the quantity threshold for multiple bulk discounts,
+          only the one with the greatest percentage discount is applied' do
+        merchant = create(:merchant)
+        create(:discount, merchant_id: merchant.id, threshold: 5, percentage: 0.2)
+        create(:discount, merchant_id: merchant.id, threshold: 7, percentage: 0.5)
+        item1 = create(:item, merchant_id: merchant.id)
+        invoice = create(:invoice)
+        create(:invoiceItem,
+               item_id: item1.id,
+               invoice_id: invoice.id,
+               unit_price: 1000,
+               quantity: 10)
+        expect(invoice.discount).to eq(5000)
+      end
+
+      it 'Bulk discounts apply only on a per-item basis' do
+        merchant = create(:merchant)
+        discount = create(:discount, merchant_id: merchant.id, threshold: 15, percentage: 0.5)
+        item1 = create(:item, merchant_id: merchant.id)
+        item2 = create(:item, merchant_id: merchant.id)
+        invoice = create(:invoice)
+        invoice_item1 = create(:invoiceItem,
+                                item_id: item1.id, 
+                                invoice_id: invoice.id,
+                                unit_price: 1000,
+                                quantity: 10)
+        invoice_item2 = create(:invoiceItem,
+                                item_id: item2.id, 
+                                invoice_id: invoice.id,
+                                unit_price: 500,
+                                quantity: 20)
+        expect(invoice.discounted_revenue).to eq(15000)
+      end
+    end
   end
 end

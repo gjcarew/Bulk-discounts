@@ -144,10 +144,28 @@ RSpec.describe 'Merchant Invoice Show Page' do
             expect(current_path).to eq(merchant_invoice_path(steph_merchant, invoice1))
             expect(invoice_item2.reload.status).to eq("shipped")
           end
-
         end
       end
     end
   end
-end
 
+  describe 'Discounts: When I visit the merchant invoice show page' do 
+    before :each do
+      @merchant = create(:merchant)
+      @invoice = create(:invoice)
+      items = create_list(:item, 3, merchant_id: @merchant.id)
+      items.each { |item| create(:invoiceItem, item_id: item.id, invoice_id: @invoice.id, quantity: 5, unit_price: 200)}
+      create(:discount, merchant_id: @merchant.id, threshold: 4, percentage: 0.10)
+    end
+
+    it 'I see total revenue before discounts' do
+      visit merchant_invoice_path(@merchant, @invoice)
+      expect(page).to have_content('Total Revenue: $30.00')
+    end
+
+    it 'I see total discounted revenue which includes bulk discounts' do
+      visit merchant_invoice_path(@merchant, @invoice)
+      expect(page).to have_content('Discounted Revenue: $27.00')
+    end
+  end
+end
