@@ -19,5 +19,19 @@ RSpec.describe InvoiceItem, type: :model do
 
       expect(invoice_item.item_name).to eq(item.name)
     end
+
+    it 'applied discount' do 
+      merchant = create(:merchant)
+      discount1 = create(:discount, merchant_id: merchant.id, threshold: 5, percentage: 0.2)
+      discount2 = create(:discount, merchant_id: merchant.id, threshold: 7, percentage: 0.5)
+      item1 = create(:item, merchant_id: merchant.id)
+      invoice = create(:invoice)
+      ii = create(:invoiceItem,
+                  item_id: item1.id,
+                  invoice_id: invoice.id,
+                  unit_price: 1000,
+                  quantity: 10)
+      expect(ii.applied_discount).to eq(discount2)
+    end
   end
 end
