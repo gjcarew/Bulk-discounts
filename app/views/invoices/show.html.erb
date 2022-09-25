@@ -20,7 +20,9 @@
       <div id= "invoice_item_<%= invoice_item.id %>">
       <li><p> Quantity: <%= invoice_item.quantity %></p></li>
       <li><p> Unit Price: <%= number_to_currency(invoice_item.unit_price/100) %></p></li>
-
+      <% if !invoice_item.applied_discount.nil? %>
+        <li><p> <%= link_to 'View applied discount', merchant_discount_path(@merchant, invoice_item.applied_discount) %>
+      <% end %>
       <li><%= form_with url: invoice_item_path(invoice_item), method: :patch, local: true do |form| %>
         <%= form.hidden_field :invoice_item_id, value: "#{invoice_item.id}" %>
         <%= form.hidden_field :invoice_id, value: "#{@invoice.id}" %>
