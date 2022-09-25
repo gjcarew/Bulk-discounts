@@ -61,7 +61,8 @@ RSpec.describe Invoice, type: :model do
                                 invoice_id: invoice.id,
                                 unit_price: 500,
                                 quantity: 20)
-        expect(invoice.discounted_revenue).to eq(10000)
+                                
+        expect(invoice.discount).to eq(10000)
       end
 
       it 'Bulk discounts for one merchant should not affect items sold by another merchant' do
@@ -87,6 +88,7 @@ RSpec.describe Invoice, type: :model do
                                invoice_id: invoice.id,
                                unit_price: 500,
                                quantity: 20)
+                              
         expect(invoice.discounted_revenue).to eq(20000)
       end
 
@@ -102,7 +104,7 @@ RSpec.describe Invoice, type: :model do
                invoice_id: invoice.id,
                unit_price: 1000,
                quantity: 10)
-        expect(invoice.discounted_revenue).to eq(500)
+        expect(invoice.discount).to eq(5000)
       end
 
       it 'Bulk discounts apply only on a per-item basis' do
