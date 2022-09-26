@@ -30,14 +30,14 @@ class Merchant < ApplicationRecord
   end
 
   def top_five_cust_by_transaction
-    items.joins( invoices: [:transactions, :customer])
-    .where("transactions.result = 0")
-    .select("customers.*, count(transactions.id) as transaction_count")
-    .group("customers.id")
-    .order(transaction_count: :desc)
-    .limit(5)
-  end 
-  
+    Customer.joins(invoices: [:transactions, :items])
+            .where('transactions.result = 0')
+            .select('customers.*, count(transactions.id) as transaction_count')
+            .group(:id)
+            .order(transaction_count: :desc)
+            .limit(5)
+  end
+
   def merchant_invoice_finder
     Invoice.joins(:items).select(:id).where("items.merchant_id = #{self.id}").group(:id)
   end

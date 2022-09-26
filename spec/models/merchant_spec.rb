@@ -42,6 +42,58 @@ RSpec.describe Merchant, type: :model do
       expect(merchant_stephen.enabled_items).to eq([item_bad_toothpaste])
     end
   end
+  
+  it '#top_five_cust_by_transaction' do
+    steph_merchant = Merchant.create!(name: "Stephen's shop")
+
+    customer1 = Customer.create!(first_name: "Abe", last_name: "Lincoln")
+    customer2 = Customer.create!(first_name: "Donald", last_name: "Trump")
+    customer3 = Customer.create!(first_name: "George", last_name: "Washington")
+    customer4 = Customer.create!(first_name: "Bill", last_name: "Clinton")
+    customer5 = Customer.create!(first_name: "Barack", last_name: "Obama")
+
+    item1 = Item.create!(name: "Climbing Chalk", description: "Purest powder on the market", unit_price: 1500, merchant_id: steph_merchant.id) 
+    item2 = Item.create!(name: "Colorado Air", description: "Air in a can", unit_price: 2500, merchant_id: steph_merchant.id) 
+    item3 = Item.create!(name: "Boulder", description: "It's a literal rock", unit_price: 3500, merchant_id: steph_merchant.id) 
+
+    invoice1 = Invoice.create!(status: "completed", customer_id: customer1.id, created_at: "2022-08-27 10:00:00 UTC" )
+    invoice2 = Invoice.create!(status: "completed", customer_id: customer2.id, created_at: "2022-08-27 10:00:00 UTC" )
+    invoice3 = Invoice.create!(status: "completed", customer_id: customer3.id, created_at: "2022-08-27 10:00:00 UTC" )
+    invoice4 = Invoice.create!(status: "completed", customer_id: customer4.id, created_at: "2022-08-27 10:00:00 UTC" )
+    invoice5 = Invoice.create!(status: "completed", customer_id: customer5.id, created_at: "2022-08-27 10:00:00 UTC" )
+    
+    invoice_item1 = InvoiceItem.create!(quantity:100, unit_price: 1000, status: "shipped", item_id: item1.id, invoice_id: invoice1.id)
+    invoice_item2 = InvoiceItem.create!(quantity:100, unit_price: 1000, status: "shipped", item_id: item1.id, invoice_id: invoice2.id)
+    invoice_item3 = InvoiceItem.create!(quantity:100, unit_price: 1000, status: "shipped", item_id: item1.id, invoice_id: invoice3.id)
+    invoice_item4 = InvoiceItem.create!(quantity:100, unit_price: 1000, status: "shipped", item_id: item1.id, invoice_id: invoice4.id)
+    invoice_item5 = InvoiceItem.create!(quantity:100, unit_price: 1000, status: "shipped", item_id: item1.id, invoice_id: invoice5.id)
+
+    transaction1 = Transaction.create!(result: 'success', invoice_id: invoice1.id)
+    transaction2 = Transaction.create!(result: 'success', invoice_id: invoice1.id)
+    transaction3 = Transaction.create!(result: 'success', invoice_id: invoice1.id)
+    transaction4 = Transaction.create!(result: 'success', invoice_id: invoice1.id)
+    transaction5 = Transaction.create!(result: 'success', invoice_id: invoice1.id)
+    transaction6 = Transaction.create!(result: 'success', invoice_id: invoice1.id)
+
+    transaction7 = Transaction.create!(result: 'success', invoice_id: invoice2.id)
+    transaction8 = Transaction.create!(result: 'success', invoice_id: invoice2.id)
+    transaction9 = Transaction.create!(result: 'success', invoice_id: invoice2.id)
+
+    transaction10 = Transaction.create!(result: 'success', invoice_id: invoice3.id)
+    transaction11 = Transaction.create!(result: 'success', invoice_id: invoice3.id)
+
+    transaction12 = Transaction.create!(result: 'success', invoice_id: invoice4.id)
+    transaction13 = Transaction.create!(result: 'success', invoice_id: invoice4.id)
+    transaction14 = Transaction.create!(result: 'success', invoice_id: invoice4.id)
+    transaction15 = Transaction.create!(result: 'success', invoice_id: invoice4.id)
+
+    transaction16 = Transaction.create!(result: 'success', invoice_id: invoice5.id)
+    transaction17 = Transaction.create!(result: 'success', invoice_id: invoice5.id)
+    transaction18 = Transaction.create!(result: 'success', invoice_id: invoice5.id)
+    transaction19 = Transaction.create!(result: 'success', invoice_id: invoice5.id)
+    transaction20 = Transaction.create!(result: 'success', invoice_id: invoice5.id)
+    expect(steph_merchant.top_five_cust_by_transaction).to eq([customer1, customer5, customer4, customer2, customer3])
+  end
 
   describe 'disabled_items' do
     it 'returns items where enabled attribute equals false' do
