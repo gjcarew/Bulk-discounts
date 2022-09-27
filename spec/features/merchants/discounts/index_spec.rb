@@ -4,7 +4,14 @@ RSpec.describe 'Merchants discount index' do
   describe 'As a merchant, on the bulk discounts index page' do
     before :each do 
       @merchant = create(:merchant)
-      @discounts = create_list(:discount, 2, merchant_id: @merchant.id)
+      @discounts = [create(:discount,
+                           merchant_id: @merchant.id,
+                           percentage: 0.1,
+                           threshold: 5),
+                    create(:discount,
+                           merchant_id: @merchant.id,
+                           percentage: 0.2,
+                           threshold: 8),]
 
       @sad_discount = create(:discount)
     end

@@ -8,7 +8,7 @@ class Discount < ApplicationRecord
   private
 
   def redundancy
-    where_clause = 'discounts.percentage >= ? and discounts.threshold <= ? and merchants.id = ?'
+    where_clause = 'discounts.percentage > ? and discounts.threshold < ? and merchants.id = ?'
     better_discount = Discount.joins(:merchant)
                               .where([where_clause,
                                       percentage,
