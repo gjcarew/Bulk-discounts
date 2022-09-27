@@ -39,5 +39,16 @@ RSpec.describe Discount, type: :model do
       expect(discount4.valid?).to be true
       expect(discount5.valid?).to be true
     end
+
+    it 'should flash a message that the discount is redundant' do
+      merchant = create(:merchant)
+      discount1 = merchant.discounts.create!(name: 'back to school', threshold: 10, percentage: 0.5)
+      discount2 = Discount.new(name: 'fall',
+                               threshold: 11,
+                               percentage: 0.3,
+                               merchant_id: merchant.id)
+      discount2.valid?
+      expect(discount2.errors.full_messages[0]).to eq('You have a better discount active, this discount is redundant')
+    end
   end
 end
