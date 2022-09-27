@@ -4,7 +4,8 @@ def load_from_csv(table_name, model)
   csv_text = File.read("db/data/#{table_name}.csv")
   csv = CSV.parse(csv_text, headers: true)
   csv.each do |row|
-    model.create!(row.to_hash)
+    model.new(row.to_hash).save(validate: false)
+
   end
   ActiveRecord::Base.connection.reset_pk_sequence!(table_name)
 end
@@ -40,12 +41,9 @@ namespace :csv_load do
     load_from_csv('transactions', Transaction)
   end
 
-  desc "Load discounts with Faker"
+  desc "Load discounts from CSV"
   task discounts: :environment do
-    require './././spec/factories'
-    300.times do
-      FactoryBot.create(:discount, merchant_id: Faker::Number.between(from: 1, to: 100))
-    end
+    load_from_csv('discounts', Discount)
   end
 
   desc "Load all from CSV"
