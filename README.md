@@ -1,7 +1,12 @@
-![Screen Shot 2022-09-21 at 6 34 47 PM](https://user-images.githubusercontent.com/102133027/191633830-7962c882-9e4e-48de-a13e-71ff94db65e7.png)
+![]()
 
 # Bulk Discounts
-This project is an extension of the Little Esty Shop group project. You will add functionality for merchants to create bulk discounts for their items. A “bulk discount” is a discount based on the quantity of items the customer is buying, for example “20% off orders of 10 or more items”.
+
+In this project our group created a program that allows us to operate a digital store with many merchants and items.  When a customer buys something, an invoice is created which links to both a transaction and invoice_items.  The transaction handles the monetary information; the credit card number and expiration date. The invoice_items contain the quantity and  item id which links the invoice_item to the item table.  Finally the merchant can access each of their items and through the item they can see the invoice_item to see quantity.    
+
+Using our application you can make changes to a merchant such as adding new items, and enabling or disabling items.  Accessing our application as an admin allows more access to data and other features including enabling or disabling merchants and merchants revenues. 
+
+Bulk Discounts is a solo extension of the Little Esty Shop group project. I  added functionality for merchants to create bulk discounts for their items. A “bulk discount” is a discount based on the quantity of items the customer is buying, for example “20% off orders of 10 or more items”.
 
 ## Learning Goals
 - Write migrations to create tables and relationships between tables
@@ -11,17 +16,12 @@ This project is an extension of the Little Esty Shop group project. You will add
 - Write model tests that fully cover the data logic of the application
 - Write feature tests that fully cover the functionality of the application
 
-## Deets
-- This is a solo project, to be completed alone without assistance from cohortmates, alumni, mentors, rocks, etc.
-- Additional gems to be added to the project must have instructor approval. (RSpec, Capybara, Shoulda-Matchers, Orderly, HTTParty, Launchy, Faker are pre-approved)
-- Scaffolding is not permitted on this project.
-- This project must be deployed to Heroku.
+## Setup
+- Fork and clone the project
+- Run `bundle install` to install missing gems
+- Initialize the database with `rails db:{drop,create,migrate,seed}`
 
-
-## Rubric
-
-4: Exceptional	One or more additional extension features complete.	Students implement strategies not discussed in class and can defend their design decisions (callbacks, scopes, application_helper view methods are created, etc)	ActiveRecord helpers are utilized whenever possible. ActiveRecord is used in a clear and effective way to read/write data including use of grouping, aggregating, and joining. Very little Ruby is used to process data.	Very clear Test Driven Development. Test files are extremely well organized and nested. Students can point to multiple examples of edge case testing that are not included in the user stories.
-
+![Screen Shot 2022-09-21 at 6 34 47 PM](https://user-images.githubusercontent.com/102133027/191633830-7962c882-9e4e-48de-a13e-71ff94db65e7.png)
 ## Bulk Discounts
 Bulk Discounts are subject to the following criteria:
 
@@ -201,9 +201,5 @@ instead I should see a `view discount` link.
 When I click the link I am taken to the discount show page for that holiday discount.
 ```
 
-# Little Esty Shop
 
-In this project our group created a program that allows us to operate a digital store with many merchants and items.  When a customer buys something, an invoice is created which links to both a transaction and invoice_items.  The transaction handles the monetary information; the credit card number and expiration date. The invoice_items contain the quantity and  item id which links the invoice_item to the item table.  Finally the merchant can access each of their items and through the item they can see the invoice_item to see quantity.    
-
-Using our application you can make changes to a merchant such as adding new items, and enabling or disabling items.  Accessing our application as an admin allows more access to data and other features including enabling or disabling merchants and merchants revenues.
 
