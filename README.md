@@ -1,4 +1,4 @@
-![]()
+![](https://github.com/gjcarew/Bulk-discounts/blob/main/doc/discounts_crud.gif)
 
 # Bulk Discounts
 
