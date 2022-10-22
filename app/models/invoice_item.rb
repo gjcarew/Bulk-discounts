@@ -13,6 +13,6 @@ class InvoiceItem < ApplicationRecord
             .where("invoice_items.quantity >= discounts.threshold and merchants.id = #{item.merchant_id}")
             .group(:id)
             .order(percentage: :desc)
-            .limit(1)[0]    
+            .limit(1)[0]
   end
 end
